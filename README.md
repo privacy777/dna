@@ -20,6 +20,9 @@ A python library that allow users to build simple checkers.
 
 Until release with pip, download the source code, put it in your checker's main code folder.
 
+Please consider that this project is only maintained in python 3.6+ If you get any issue with python, consider downloading the latest version.
+
+
 Then, using terminal
 ```bash
   pip install -r requirements.txt
