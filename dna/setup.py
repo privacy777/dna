@@ -1,15 +1,12 @@
 from art import *
-import os, queue
-
-q = queue.Queue()
-
-class Setup:
+import os, multiprocessing
+class DNA:
     def __init__(self) -> None:
         self.accounts = []
-        self.number_acc = 0
+        
+        self.queue = multiprocessing.Queue()
     
     def generate_title(self,name):
-        
         """retruns an ascii title for your checkers using the art library
 
         Args:
@@ -28,16 +25,14 @@ class Setup:
         """
         os.system(f'title {title}')
 
-
     def load_combos(self):
 
         with open('combo.txt','r') as combo:
             for line in combo:
-                q.put(line.strip())
+                self.q.put(line.strip())
                 self.accounts.append(line.strip())
-                self.number_acc += 1
 
-        print(f'> loaded {self.number_acc} acc')
+        print(f'> loaded {self.q.qsize()} acc')
 
         
 
