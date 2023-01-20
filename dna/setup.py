@@ -1,9 +1,9 @@
 from art import *
 import os, multiprocessing
+
+
 class DNA:
     def __init__(self) -> None:
-        self.accounts = []
-        
         self.queue = multiprocessing.Queue()
     
     def generate_title(self,name):
@@ -29,12 +29,6 @@ class DNA:
 
         with open('combo.txt','r') as combo:
             for line in combo:
-                self.q.put(line.strip())
-                self.accounts.append(line.strip())
+                self.queue.put(line.strip())
 
-        print(f'> loaded {self.q.qsize()} acc')
-
-        
-
-
-
+        print(f'> loaded {self.queue.qsize()} acc')
