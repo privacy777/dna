@@ -2,6 +2,12 @@
 # DNA
 
 A python library that allow users to build simple checkers. Allowing beginners and other users to make simple & efficient checkers in less than a 100 lines !
+Because it handles all the boring things like opening combo & proxy files, init the checker name etc... to mainly focus on the main code.
+
+This allow users to not get overwhelmed by "junk" code and mainly focus on their request section, allowing them to gain time and productivity.
+
+Keep in mind that i'm the sole (at the moment) programmer on this project, i'm planning on constantly updating the library until i'm satisfied. Feel free to commit changes to the code and submit them. This code is collaborative !
+
 
 
 
