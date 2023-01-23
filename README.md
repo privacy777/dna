@@ -1,7 +1,8 @@
 
 # DNA
 
-A python library that allow users to build simple checkers. Allowing beginners and other users to make simple & efficient checkers in less than a 100 lines !
+A python library that allow users to build simple checkers. Allowing beginners and other users to make simple & efficient checkers in less than a 100 lines ! (100 lines included docstrings and spaces for easy code reading)
+
 Because it handles all the boring things like opening combo & proxy files, init the checker name etc... to mainly focus on the main code.
 
 This allow users to not get overwhelmed by "junk" code and mainly focus on their request section, allowing them to gain time and productivity.
