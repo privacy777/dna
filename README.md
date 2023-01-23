@@ -10,17 +10,16 @@ Keep in mind that i'm the sole (at the moment) programmer on this project, i'm p
 
 
 
-
 ## Features
 
 - Simplicity
 - Lightweight library (small code)
 - Automated Queue
-- Checker's setup (Title, Menu)
+- Checker's setup (ASCII Title, Menu)
 - Combo & Proxy-list loading
 - Makes main code easier to read and smaller.
-
-
+- Syncs and safe threads implementation making them easy to use
+- Fully documented code with examples.
 
 
 ## Installation
@@ -36,7 +35,9 @@ Then, using terminal
 ```
 you can then import it in your main code
 ```bash
-  from dna.lib import *
+  from dna.setup import *
+  from dna.threadingz import *
+  from dna.proxies import *
 ```
 ## Documentation
 
@@ -47,12 +48,10 @@ you can then import it in your main code
 ## Roadmap
 
 - Auth proxy support
-- Efficient and performant threading
+- Multiprocessing implementation
 - Optimized UI performance (reduce / delete flickers when updating the console)
 - Auth Features
-- Security Features
-- Faster combo loading
-- More fonts
+- Security Features (Anti-Debug)
 
 
 ## Authors
