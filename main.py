@@ -55,7 +55,7 @@ class Checker:
             
         self.data = {"email": f"{self.email}", "password": f"{self.password}"}
         try:
-            with requests.post(f'https://app.svgator.com/api/svgator/auth/login',headers=self.headers, json= self.data,timeout=1) as r:
+            with requests.post(f'http://testhtml5.vulnweb.com/',headers=self.headers, json= self.data,timeout=1) as r:
                 
                 if 'customer_id' in r.text:
                     
