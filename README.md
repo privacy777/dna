@@ -1,13 +1,15 @@
 
 # DNA
 
-A python library that allow users to build simple checkers. Allowing beginners and other users to make simple & efficient checkers in less than a 100 lines ! (100 lines included docstrings and spaces for easy code reading)
+A python library that allow users to build simple pentesting applications. Allowing beginners and other users to make simple & efficient checkers in less than a 100 lines ! (100 lines included docstrings and spaces for easy code reading)
 
 Because it handles all the boring things like opening combo & proxy files, init the checker name etc... to mainly focus on the main code.
 
 This allow users to not get overwhelmed by "junk" code and mainly focus on their request section, allowing them to gain time and productivity.
 
 Keep in mind that i'm the sole (at the moment) programmer on this project, i'm planning on constantly updating the library until i'm satisfied. Feel free to commit changes to the code and submit them. This code is collaborative !
+
+It's also only for reference, use it on your personnal hosted applications / websites. Do not use it for any illegal activity. I cannot be held responsible for the use of this open source project.
 
 
 
@@ -41,9 +43,7 @@ you can then import it in your main code
   from dna.proxies import *
 ```
 ## Documentation
-
-[Main thread](https://linktodocumentation)
-- check the example folder, and the main thread on cracked.io
+-Documentatiojn on progress, source code is still not finished. please be patient.
 
 
 ## Roadmap
@@ -63,8 +63,7 @@ you can then import it in your main code
 
 ## 🚀 About Me & this project
 - Mainly programming in python, i'm also learning new languages.
-- Made this for total beginners who still wanna learn how to code checkers.
-- You can also check my guide (with images and in depth explanations to code a fully working checker in no time)
+- Made this for total beginners, open source & written in pure python.
 - You can always open issues if needed, or pull requests and suggest modifications.
 
 
